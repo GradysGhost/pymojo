@@ -5,7 +5,7 @@ from distutils.core import setup
 
 setup(
     name='PyMoJo',
-    version='0.9',
+    version='0.9.1',
     author='Ryan Jung',
     author_email='gradysghost@gmail.com',
     packages=['pymojo'],
@@ -14,7 +14,7 @@ setup(
     description='PyJoJo client library',
     long_description=open('README.md').read(),
     install_requires=[
-        'requests == 2.4.1'
+        'requests == 2.4.1',
         'PyYAML == 3.11'
     ],
     entry_points={

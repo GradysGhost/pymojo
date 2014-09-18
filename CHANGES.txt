@@ -18,3 +18,4 @@ v0.8.2, 2014-06-13 -- Now backward compatible with old Jojos again
 v0.8.4, 2014-07-25 -- Bugfixes
 v0.8.5, 2014-08-04 -- https://github.com/GradysGhost/pymojo/issues/17
 v0.9, 2014-09-18 -- Added endpoint grouping feature, thanks to Ron
+v0.0.1, 2014-09-18 -- Fixing distribution problem
