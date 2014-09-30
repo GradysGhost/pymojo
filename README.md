@@ -38,57 +38,48 @@ Reload the Jojo's script listing:
 
 More officially, mojo works like this...
 
-    mojo [ -b boolean ] [ -c config_file ] [ -e endpoint ] [ -i ]
-         [ -n environment ] [ p port ] [ -s ] [ -t tag1,tag2,tagN ]
-         [ -u username ] [ -w password ] action [ script ] [ params ]
+    mojo [-h] [-c CONFIG] [-e ENDPOINT] [-g GROUP] [-p PORT] [-s] [-i]
+                [-u USER] [-w PASSWORD] [-n ENV] [-b {and,or,not}] [-t TAGS]
+                {list,show,run,reload} [script] ...
+    
+    Mojo command line client
+    
+    positional arguments:
+      {list,show,run,reload}
+                            The action you want to take
+      script                For 'show' and 'run' commands, this is the relevant
+                            script
+      params                Params to pass through the 'run' command in
+                            'key1=value' format
+    
+    optional arguments:
+      -h, --help            show this help message and exit
+      -c CONFIG, --config CONFIG
+                            A YAML configuration file
+      -e ENDPOINT, --endpoint ENDPOINT
+                            The host to connect to a Jojo instance on
+      -g GROUP, --group GROUP
+                            The group of Jojo instances to perform actions
+      -p PORT, --port PORT  The port Jojo is listening on
+      -s, --ssl             Use SSL
+      -i, --ignore-warnings
+                            Ignore SSL certificate security warnings
+      -u USER, --user USER  The user to authenticate with
+      -w PASSWORD, --password PASSWORD
+                            The password to authenticate with
+      -n ENV, --environment ENV
+                            The name of the configured environment to control
+      -b {and,or,not}, --list-boolean {and,or,not}
+                            When listing with a script tag filter, this specifies
+                            the boolean operator to use describing the tag filter.
+      -t TAGS, --tags TAGS  When listing with a script tag filter, this specifies
+                            the list of tags to filter by. Also see the -b flag.
 
-The various arguments (see below) tell Mojo how to hook up to your Jojo. The
-action is one of these four:
-
- * `list` - Lists all of the scripts the Jojo knows
- * `show` - Shows detail on one of these scripts
- * `run` - Executes a script on the remote system
- * `reload` - Reloads the Jojo's script listing
 
 The `show` and `run` actions require that you specify a `script` by name, which
 you can discover with a `list`. The `run` action also optionally accepts a
 series of key/value pairs to pass into said script as environment variables.
 These should be written like this: `key1=value1 key2=value2`
-
-#### Arguments
-
-    (-c | --config) config_file
-      A YAML configuration file to import (see `Configuration`)
-
-    (-e | --endpoint) hostname
-      The hostname running your Jojo
-
-    ( -i | --ignore-warnings )
-      Ignore SSL certificate security warnings, such as those in response to
-      self-signed certificates, certs signed by untrusted CAs, and actual
-      unsecure SSL certificates
-
-    ( -n | --environment )
-      Specify a configured environment's saved settings (see `Configuration`)
-
-    ( -p | --port) port
-      The port Jojo is running on
-
-    ( -s | --ssl )
-      Use SSL encryption
-
-    ( -u | --user ) user
-      Username to use against HTTP Basic Auth
-
-    ( -w | --password ) password
-      Password to use against HTTP Basic Auth
-
-    ( -b | --list-boolean ) and|or|not
-      The boolean operator to apply to script listing tag filters
-
-    ( -t | --tags ) tag1,tag2,tagN
-      A comma-separated list of tags which affects list output. Also see the -b
-      flag.
 
 #### Configuration
 
@@ -106,15 +97,29 @@ configuration might look like this:
         password: l0calU$erP@ss
       bobs-jojo-server:
         endpoint: "192.168.1.201"
+      steves-jojo-server:
+        endpoint: "192.168.1.253"
+    
+    groups:
+      jojos:
+        - bobs-jojo-server
+        - steves-jojo-server
+      
     default_environment: "local"
 
-That defines two environments, called "local" and "bobs-jojo-server" whose
-settings can be used with the `-n` option, like so:
+That defines three environments, called "local", "bobs-jojo-server", and
+"steves-jojo-server", whose settings can be used with the `-n` option, like so:
 
     mojo -n bobs-jojo-server list
 
 If you don't provide a `-n` option, Mojo will try to use the
 `default_environment`.
+
+It also defines a group called "jojos" that targets both the "bobs-jojo-server"
+and "steves-jojo-server" environments. This can be called up with the `-g`
+option:
+
+    mojo -g jojos list
 
 Mojo will automatically pull in configration files found at `/etc/mojo.yml` and
 `~/.mojo.yml`, but you can specify an additional config file with `-c`.
