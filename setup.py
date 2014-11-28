@@ -14,8 +14,8 @@ setup(
     description='PyJoJo client library',
     long_description=open('README.md').read(),
     install_requires=[
-        'requests == 2.4.1'
-        'PyYAML == 3.11'
+        'requests>=2.4.1'
+        'PyYAML>=3.11'
     ],
     entry_points={
         'console_scripts': [
