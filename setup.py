@@ -5,7 +5,7 @@ from distutils.core import setup
 
 setup(
     name='PyMoJo',
-    version='0.9',
+    version='0.9.2',
     author='Ryan Jung',
     author_email='gradysghost@gmail.com',
     packages=['pymojo'],
